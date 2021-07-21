@@ -1,25 +1,29 @@
 import React, {useState} from 'react';
 import './App.css'
 import {useDispatch, useSelector} from "react-redux";
-import {addTodo, minusOne, plusOne} from "./store/main-reducer";
+import {addTodo, minusOne, plusOne, ridTodo} from "./store/main-reducer";
+import FlipMove from 'react-flip-move';
 
 const App = () => {
     const [input, setInput] = useState('')
     const counter = useSelector(state => state.main.count);
     const todo = useSelector(state => state.main.todo);
     const dispatch = useDispatch();
-    const formSubmit =(e)=> {
-      e.preventDefault();
-      dispatch(addTodo(input))
-      setInput('');
-    }
+    const formSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addTodo(input))
+        setInput('');
+    };
     const plusOneHandler = () => {
 
         dispatch(plusOne())
-    }
+    };
 
     const minusOneHandler = () => {
         dispatch(minusOne())
+    };
+    const ridTodoHandler = (idx) => {
+        dispatch(ridTodo(idx))
     }
     return (
         <div className='app'>
@@ -30,15 +34,23 @@ const App = () => {
                     <button type="button" className="btn btn-success" onClick={plusOneHandler}>+1</button>
                 </div>
             </div>
-          <div className="mb-3">
-            <form action="" onSubmit={formSubmit}> <input type="text" className="form-control" id="formGroupExampleInput"
-                   placeholder="Example input placeholder" value={input} onChange={e=>setInput(e.target.value)} /></form>
-          </div>
-          <div className='card'>
-            <ul className="list-group list-group-flush">
-            {todo.map((item, idx)=> <li className='list-group-item' key={idx}>{item}</li> )}
-            </ul>
-          </div>
+            <div className="mb-3">
+                <form action="" onSubmit={formSubmit}><input type="text" className="form-control"
+                                                             id="formGroupExampleInput"
+                                                             placeholder="Example input placeholder" value={input}
+                                                             onChange={e => setInput(e.target.value)}/></form>
+            </div>
+            {todo.length ?
+                <div className='card'>
+                    <ul className="list-group list-group-flush">
+                        <FlipMove>
+                            {todo.map((item, idx) => <li className='list-group-item' key={idx}
+                                                         onClick={() => ridTodoHandler(idx)}>{item}</li>)}
+                        </FlipMove>
+                    </ul>
+                </div>
+                : 'No ToDO'}
+
         </div>
     );
 };
