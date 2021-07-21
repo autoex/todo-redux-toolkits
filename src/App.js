@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './App.css'
 import {useDispatch, useSelector} from "react-redux";
-import {addTodo, minusOne, plusOne, ridTodo} from "./store/main-reducer";
 import FlipMove from 'react-flip-move';
+import {addTodo, minusOne, plusOne, ridTodo} from "./store/toolkitSlice";
 
 const App = () => {
     const [input, setInput] = useState('')
@@ -22,8 +22,8 @@ const App = () => {
     const minusOneHandler = () => {
         dispatch(minusOne())
     };
-    const ridTodoHandler = (idx) => {
-        dispatch(ridTodo(idx))
+    const ridTodoHandler = (payload) => {
+        dispatch(ridTodo(payload))
     }
     return (
         <div className='app'>
